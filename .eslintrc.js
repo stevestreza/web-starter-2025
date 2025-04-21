@@ -20,9 +20,9 @@ module.exports = {
 				browser: true
 			},
 			extends: [
-				'plugin:solid/typescript'
+				'plugin:react/typescript'
 			],
-			plugins: ['solid'],
+			plugins: ['react'],
 			parserOptions: {
 				ecmaFeatures: {
 					jsx: true
@@ -36,4 +36,4 @@ module.exports = {
 			}
 		}
 	]
-} 
+}

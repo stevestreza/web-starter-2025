@@ -1,13 +1,14 @@
-import { render } from 'solid-js/web';
-import './index.css';
-import App from './App';
+import './index.css'
+import { StrictMode } from 'react'
+import { hydrateRoot } from 'react-dom/client'
+import { BrowserRouter } from "react-router";
+import App from './App'
 
-const root = document.getElementById('root');
-
-if (!root) {
-  throw new Error(`Root element not found`);
-}
-
-render(() => (
-  <App />
-), root); 
+hydrateRoot(
+  document.getElementById('root') as HTMLElement,
+  <StrictMode>
+	<BrowserRouter>
+	    <App />
+	</BrowserRouter>
+  </StrictMode>,
+)

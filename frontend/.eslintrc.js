@@ -7,7 +7,7 @@ module.exports = {
 	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:solid/typescript'
+		'plugin:react/typescript'
 	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
@@ -17,12 +17,12 @@ module.exports = {
 			jsx: true
 		}
 	},
-	plugins: ['@typescript-eslint', 'solid'],
+	plugins: ['@typescript-eslint', 'react'],
 	rules: {
-		'semi': ['error', 'never'],
+		'semi': ['error', 'always'],
 		'quotes': ['error', 'backtick'],
 		'indent': ['error', 'tab'],
-		'@typescript-eslint/semi': ['error', 'never'],
+		'@typescript-eslint/semi': ['error', 'always'],
 		'@typescript-eslint/quotes': ['error', 'backtick']
 	}
-} 
+}

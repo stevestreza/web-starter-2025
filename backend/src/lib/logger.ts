@@ -22,3 +22,4 @@ export const logger = pino({
 })
 
 export const dbLogger = logger.child({ context: `database` })
+export const authLogger = logger.child({ context: `auth` })

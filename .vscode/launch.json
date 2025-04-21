@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Frontend Dev",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "nix",
+            "runtimeArgs": [
+                "develop",
+                ".",
+                "--command",
+                "pnpm",
+                "-F",
+                "frontend",
+                "dev"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Backend Dev",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "nix",
+            "runtimeArgs": [
+                "develop",
+                ".",
+                "--command",
+                "pnpm",
+                "-F",
+                "backend",
+                "dev"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Full Stack Dev",
+            "type": "node",
+            "request": "launch",
+            "dependsOn": [
+                "Frontend Dev",
+                "Backend Dev"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Full Stack",
+            "configurations": ["Frontend Dev", "Backend Dev"]
+        }
+    ]
+} 

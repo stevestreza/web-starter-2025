@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"target": "ES2022",
+		"moduleResolution": "NodeNext",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true
+	}
+} 

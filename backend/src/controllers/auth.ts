@@ -33,21 +33,6 @@ export const register = async (ctx: Context) => {
 
 		logger.info({ userId: user.id, email: user.email }, `User registered successfully`)
 
-		// Create starter ship for the new user
-		try {
-			const starterShip = await createStarterShip(user.id)
-			logger.info(
-				{ userId: user.id, shipId: starterShip.id },
-				'Created starter ship for new user'
-			)
-		} catch (error) {
-			logger.error(
-				{ userId: user.id, error: error instanceof Error ? error.message : 'Unknown error' },
-				'Failed to create starter ship'
-			)
-			// Continue with registration even if starter ship creation fails
-		}
-
 		const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: `7d` })
 		
 		await prisma.session.create({

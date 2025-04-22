@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useNavigate  } from 'react-router'
+import { useNavigate } from 'react-router'
 import { login } from '../services/auth'
 
 export default function Login() {
@@ -7,14 +7,10 @@ export default function Login() {
 	const [error, setError] = useState(``)
 	const [loading, setLoading] = useState(false)
 
-	const handleSubmit = async (e: Event) => {
-		e.preventDefault()
+	const handleSubmit = async (formData: FormData) => {
 		setError(``)
 		setLoading(true)
 
-		const form = e.target as HTMLFormElement
-		const formData = new FormData(form)
-		
 		const data = {
 			email: formData.get(`email`) as string,
 			password: formData.get(`password`) as string,
@@ -41,9 +37,9 @@ export default function Login() {
 				<p className="text-nebula-blue-200 mt-2">Welcome back</p>
 			</div>
 
-			<form onSubmit={handleSubmit} className="space-y-6 bg-space-400 p-8 rounded-lg">
+			<form action={handleSubmit} className="space-y-6 bg-space-400 p-8 rounded-lg">
 				<div>
-					<label for="email" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="email" className="block text-sm font-medium text-nebula-purple-200">
 						Email
 					</label>
 					<input
@@ -56,7 +52,7 @@ export default function Login() {
 				</div>
 
 				<div>
-					<label for="password" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="password" className="block text-sm font-medium text-nebula-purple-200">
 						Password
 					</label>
 					<input

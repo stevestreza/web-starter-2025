@@ -8,11 +8,13 @@ import Register from "./pages/Register";
 
 function App() {
 	return (
-		<Routes element={<Layout />}>
-			<Route index element={<Home />} />
-			<Route path="about" element={<About />} />
-			<Route path="login" element={<Login />} />
-			<Route path="register" element={<Register />} />
+		<Routes>
+			<Route element={<Layout />}>
+				<Route index element={<Home />} />
+				<Route path="about" element={<About />} />
+				<Route path="login" element={<Login />} />
+				<Route path="register" element={<Register />} />
+			</Route>
 		</Routes>
 	);
 }

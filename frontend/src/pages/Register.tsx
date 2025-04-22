@@ -7,14 +7,10 @@ export default function Register() {
 	const [error, setError] = useState(``)
 	const [loading, setLoading] = useState(false)
 
-	const handleSubmit = async (e: Event) => {
-		e.preventDefault()
+	const handleSubmit = async (formData: FormData) => {
 		setError(``)
 		setLoading(true)
 
-		const form = e.target as HTMLFormElement
-		const formData = new FormData(form)
-		
 		const data = {
 			email: formData.get(`email`) as string,
 			username: formData.get(`username`) as string,
@@ -42,9 +38,9 @@ export default function Register() {
 				<p className="text-nebula-blue-200 mt-2">Create your account</p>
 			</div>
 
-			<form onSubmit={handleSubmit} className="space-y-6 bg-space-400 p-8 rounded-lg">
+			<form action={handleSubmit} className="space-y-6 bg-space-400 p-8 rounded-lg">
 				<div>
-					<label for="email" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="email" className="block text-sm font-medium text-nebula-purple-200">
 						Email
 					</label>
 					<input
@@ -57,7 +53,7 @@ export default function Register() {
 				</div>
 
 				<div>
-					<label for="username" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="username" className="block text-sm font-medium text-nebula-purple-200">
 						Username
 					</label>
 					<input
@@ -70,7 +66,7 @@ export default function Register() {
 				</div>
 
 				<div>
-					<label for="password" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="password" className="block text-sm font-medium text-nebula-purple-200">
 						Password
 					</label>
 					<input

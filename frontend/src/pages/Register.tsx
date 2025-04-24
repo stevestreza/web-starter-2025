@@ -34,13 +34,13 @@ export default function Register() {
 	return (
 		<div className="max-w-md mx-auto space-y-8">
 			<div className="text-center">
-				<h1 className="text-3xl font-bold text-nebula-purple-100">Register</h1>
-				<p className="text-nebula-blue-200 mt-2">Create your account</p>
+				<h1 className="text-3xl font-bold text-text-primary dark:text-text-primary-dark">Register</h1>
+				<p className="text-text-secondary dark:text-text-secondary-dark mt-2">Create your account</p>
 			</div>
 
-			<form action={handleSubmit} className="space-y-6 bg-space-400 p-8 rounded-lg">
+			<form action={handleSubmit} className="space-y-6 bg-surface dark:bg-surface-dark p-8 rounded-lg border border-border dark:border-border-dark">
 				<div>
-					<label htmlFor="email" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="email" className="block text-sm font-medium text-text-primary dark:text-text-primary-dark">
 						Email
 					</label>
 					<input
@@ -48,12 +48,12 @@ export default function Register() {
 						name="email"
 						type="email"
 						required
-						className="mt-1 block w-full rounded-md bg-space-300 border-space-200 text-nebula-purple-100 px-3 py-2"
+						className="mt-1 block w-full rounded-md bg-background dark:bg-background-dark border-border dark:border-border-dark text-text-primary dark:text-text-primary-dark px-3 py-2 focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark focus:border-accent dark:focus:border-accent-dark"
 					/>
 				</div>
 
 				<div>
-					<label htmlFor="username" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="username" className="block text-sm font-medium text-text-primary dark:text-text-primary-dark">
 						Username
 					</label>
 					<input
@@ -61,12 +61,12 @@ export default function Register() {
 						name="username"
 						type="text"
 						required
-						className="mt-1 block w-full rounded-md bg-space-300 border-space-200 text-nebula-purple-100 px-3 py-2"
+						className="mt-1 block w-full rounded-md bg-background dark:bg-background-dark border-border dark:border-border-dark text-text-primary dark:text-text-primary-dark px-3 py-2 focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark focus:border-accent dark:focus:border-accent-dark"
 					/>
 				</div>
 
 				<div>
-					<label htmlFor="password" className="block text-sm font-medium text-nebula-purple-200">
+					<label htmlFor="password" className="block text-sm font-medium text-text-primary dark:text-text-primary-dark">
 						Password
 					</label>
 					<input
@@ -74,25 +74,25 @@ export default function Register() {
 						name="password"
 						type="password"
 						required
-						className="mt-1 block w-full rounded-md bg-space-300 border-space-200 text-nebula-purple-100 px-3 py-2"
+						className="mt-1 block w-full rounded-md bg-background dark:bg-background-dark border-border dark:border-border-dark text-text-primary dark:text-text-primary-dark px-3 py-2 focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark focus:border-accent dark:focus:border-accent-dark"
 					/>
 				</div>
 
 				{error && (
-					<div className="text-nebula-red-500 text-sm">{error}</div>
+					<div className="text-red-500 dark:text-red-400 text-sm">{error}</div>
 				)}
 
 				<button
 					type="submit"
 					disabled={loading}
-					className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-nebula-purple-100 bg-nebula-purple-600 hover:bg-nebula-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-nebula-purple-500 disabled:opacity-50"
+					className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-accent dark:bg-accent-dark hover:bg-primary-700 dark:hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent dark:focus:ring-accent-dark disabled:opacity-50"
 				>
 					{loading ? `Registering...` : `Register`}
 				</button>
 
-				<div className="text-center text-sm text-nebula-blue-200">
+				<div className="text-center text-sm text-text-secondary dark:text-text-secondary-dark">
 					Already have an account?{` `}
-					<a href="/login" className="text-nebula-purple-400 hover:text-nebula-purple-300">
+					<a href="/login" className="text-accent dark:text-accent-dark hover:text-primary-700 dark:hover:text-primary-400">
 						Login here
 					</a>
 				</div>

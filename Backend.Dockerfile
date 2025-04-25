@@ -12,8 +12,10 @@ RUN npm install -g pnpm
 # Copy source code and prisma schema
 COPY . .
 
+RUN echo "honk"
 # Install dependencies
-RUN pnpm install --no-hoist --frozen-lockfile
+RUN pnpm install --frozen-lockfile
+RUN pnpm approve-builds argon2 && pnpm install --frozen-lockfile
 
 # Generate Prisma client
 WORKDIR /app/backend
@@ -39,7 +41,8 @@ COPY --from=builder /app/backend/node_modules/ ./node_modules
 COPY --from=builder /app/backend/dist/ ./dist
 COPY --from=builder /app/backend/prisma/ ./prisma
 
-RUN npx pnpm install corepack prisma
+RUN rm -rf node_modules backend/node_modules && npx pnpm install corepack prisma argon2
+RUN npx pnpm install
 
 # Set environment variables
 ENV NODE_ENV=production

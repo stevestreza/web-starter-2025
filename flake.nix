@@ -56,6 +56,7 @@
             echo "Database:"
             echo "  pnpm -F backend db:migrate  - Run database migrations"
             echo "  pnpm -F backend db:generate - Generate Prisma client"
+            echo "  pnpm -F backend db:seed     - Seed the database"
             echo "  pnpm -F backend db:studio   - Open Prisma Studio"
             echo ""
             echo "Build:"

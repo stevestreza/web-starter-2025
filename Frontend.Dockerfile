@@ -11,7 +11,7 @@ COPY frontend/package.json ./frontend/
 COPY ./frontend ./frontend/
 
 # Install dependencies
-RUN npm install -g pnpm typescript && pnpm install --frozen-lockfile
+RUN npm install -g pnpm typescript && pnpm install --no-hoist --frozen-lockfile
 
 # Build the application
 WORKDIR /app/frontend

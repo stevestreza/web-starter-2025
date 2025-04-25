@@ -10,7 +10,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-hoist --frozen-lockfile
 
 # Copy source code and prisma schema
 COPY . .
@@ -25,16 +25,22 @@ RUN pnpm build
 # Production stage
 FROM node:22-alpine
 
-WORKDIR /app
+RUN apk add openssl
+
+RUN mkdir -p /app/backend
+WORKDIR /app/backend
 
 # Copy package files
 COPY backend/package.json pnpm-lock.yaml ./
 
 # Copy built files and Prisma schema
-COPY --from=builder /app/backend/node_modules ./node_modules
-COPY --from=builder /app/backend/dist ./dist
-COPY --from=builder /app/backend/prisma ./prisma
+COPY --from=builder /app/node_modules/ /app/node_modules
+COPY --from=builder /app/backend/node_modules/ ./node_modules
+COPY --from=builder /app/backend/dist/ ./dist
+COPY --from=builder /app/backend/prisma/ ./prisma
 # COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+RUN npx pnpm install corepack prisma
 
 # Set environment variables
 ENV NODE_ENV=production

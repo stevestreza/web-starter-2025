@@ -23,7 +23,8 @@ jobs:
           context: .
           file: Frontend.Dockerfile
           push: false
-          tags: web-starter-frontend:latest
+          load: true
+          tags: web-starter-frontend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
@@ -33,7 +34,8 @@ jobs:
           context: .
           file: Backend.Dockerfile
           push: false
-          tags: web-starter-backend:latest
+          load: true
+          tags: web-starter-backend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
@@ -50,18 +52,38 @@ jobs:
             -e POSTGRES_DB=webstarter \
             postgres:16-alpine
       
+      - name: Start frontend container and verify health
+        run: |
+          docker run -d \
+            --name frontend-test \
+            --network test-network \
+            -p 8080:80 \
+            web-starter-frontend:test
+          
+          # Wait for frontend to start
+          timeout 30s bash -c 'until curl -s http://localhost:8080; do sleep 2; done' || exit 63
+          
+          # Verify that the frontend loads properly
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+          if [[ "$response" != "200" ]]; then
+            echo "Frontend health check failed with status code: $response"
+            exit 1
+          else
+            echo "Frontend health check passed with status code: $response"
+          fi
+      
       - name: Start backend container and verify health
         run: |
           docker run -d \
             --name backend-test \
             --network test-network \
             -e DATABASE_URL=postgresql://postgres:postgres@postgres-test:5432/webstarter \
-            -e NODE_ENV=production \
+            -e NODE_ENV=test \
             -p 3000:3000 \
-            web-starter-backend:latest
+            web-starter-backend:test
           
           # Wait for backend to start
-          timeout 30s bash -c 'until curl -s http://localhost:3000/api/health; do sleep 2; done' || exit 1
+          timeout 30s bash -c 'until curl -s http://localhost:3000/api/health; do sleep 2; done' || exit 63
           
           # Verify health endpoint
           response=$(curl -s http://localhost:3000/api/health)
@@ -72,22 +94,9 @@ jobs:
             echo "Backend health check passed: $response"
           fi
       
-      - name: Start frontend container and verify health
+      - name: Cleanup
+        if: always()
         run: |
-          docker run -d \
-            --name frontend-test \
-            --network test-network \
-            -p 8080:80 \
-            web-starter-frontend:latest
-          
-          # Wait for frontend to start
-          timeout 30s bash -c 'until curl -s http://localhost:8080; do sleep 2; done' || exit 1
-          
-          # Verify that the frontend loads properly
-          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
-          if [[ "$response" != "200" ]]; then
-            echo "Frontend health check failed with status code: $response"
-            exit 1
-          else
-            echo "Frontend health check passed with status code: $response"
-          fi 
+          docker stop frontend-test backend-test postgres-test || true
+          docker rm frontend-test backend-test postgres-test || true
+          docker network rm test-network || true 

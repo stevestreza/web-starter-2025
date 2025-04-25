@@ -25,7 +25,7 @@ RUN pnpm build
 # Production stage
 FROM node:22-alpine
 
-RUN apk add openssl
+RUN apk add openssl curl
 
 RUN mkdir -p /app/backend
 WORKDIR /app/backend
@@ -38,12 +38,15 @@ COPY --from=builder /app/node_modules/ /app/node_modules
 COPY --from=builder /app/backend/node_modules/ ./node_modules
 COPY --from=builder /app/backend/dist/ ./dist
 COPY --from=builder /app/backend/prisma/ ./prisma
-# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 RUN npx pnpm install corepack prisma
 
 # Set environment variables
 ENV NODE_ENV=production
+
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/api/health || exit 1
 
 # Expose port
 EXPOSE 3000

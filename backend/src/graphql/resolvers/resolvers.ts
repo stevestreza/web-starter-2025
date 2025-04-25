@@ -1,12 +1,18 @@
 import { PrismaClient } from '@prisma/client';
-import { hash, verify } from 'argon2';
+import { verify } from 'argon2';
 import jwt from 'jsonwebtoken';
+import { MyContext } from '../context';
 
 const prisma = new PrismaClient();
 
+interface LoginInput {
+  email: string;
+  password: string;
+}
+
 export const resolvers = {
   Query: {
-    me: async (_, __, { user }) => {
+    me: async (_: unknown, __: unknown, { user }: MyContext) => {
       if (!user) return null;
       return prisma.user.findUnique({
         where: { id: user.id },
@@ -15,7 +21,7 @@ export const resolvers = {
     }
   },
   Mutation: {
-    login: async (_, { email, password }) => {
+    login: async (_: unknown, { email, password }: LoginInput) => {
       const user = await prisma.user.findUnique({ where: { email } });
       if (!user) throw new Error('User not found');
 
@@ -37,7 +43,7 @@ export const resolvers = {
         }
       });
     },
-    logout: async (_, __, { user }) => {
+    logout: async (_: unknown, __: unknown, { user }: MyContext) => {
       if (!user) throw new Error('Not authenticated');
       
       await prisma.session.deleteMany({

@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import { Context } from '@apollo/server';
 import { KoaContextFunctionArgument } from '@as-integrations/koa';
 
 const prisma = new PrismaClient();

@@ -6,7 +6,7 @@ import helloRoutes from './routes/hello';
 import authRoutes from './routes/auth';
 import { typeDefs } from './graphql/schema/schema';
 import { resolvers } from './graphql/resolvers/resolvers';
-import { createContext } from './graphql/context';
+import { createContext, MyContext } from './graphql/context';
 
 const app = new Koa();
 
@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 
 async function startServer() {
   // Apollo Server setup
-  const server = new ApolloServer({
+  const server = new ApolloServer<MyContext>({
     typeDefs,
     resolvers,
   });

@@ -9,11 +9,11 @@ COPY package.json pnpm-lock.yaml ./
 # Install pnpm
 RUN npm install -g pnpm
 
-# Install dependencies
-RUN pnpm install --no-hoist --frozen-lockfile
-
 # Copy source code and prisma schema
 COPY . .
+
+# Install dependencies
+RUN pnpm install --no-hoist --frozen-lockfile
 
 # Generate Prisma client
 WORKDIR /app/backend

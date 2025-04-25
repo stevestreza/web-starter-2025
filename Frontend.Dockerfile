@@ -5,18 +5,16 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json pnpm-lock.yaml tsconfig.base.json ./
-COPY frontend/package.json ./frontend/
 
 # Copy source code
-COPY ./frontend ./frontend/
+COPY . .
 
 # Install dependencies
-RUN npm install -g pnpm typescript && pnpm install --no-hoist --frozen-lockfile
+RUN npm install -g pnpm typescript && pnpm install --frozen-lockfile
 
 # Build the application
 WORKDIR /app/frontend
-RUN ls node_modules/@types
-RUN pnpm build
+RUN pnpm install --frozen-lockfile && pnpm build
 
 # Production stage
 FROM nginx:alpine
@@ -25,7 +23,7 @@ FROM nginx:alpine
 COPY ./frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built files from builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/frontend/dist /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80

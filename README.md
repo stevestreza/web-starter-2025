@@ -8,6 +8,7 @@ A modern, full-stack project template for building web applications with a clean
 - **Koa.js** - Web server framework
 - **Prisma** - ORM for database access
 - **Pino** - Logging framework
+- **Apollo** - GraphQL framework
 
 #### Frontend
 - **React** - UI library

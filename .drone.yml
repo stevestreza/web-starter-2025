@@ -1,0 +1,92 @@
+kind: pipeline
+type: docker
+name: build-and-test
+
+steps:
+  - name: build-frontend
+    image: plugins/docker
+    settings:
+      dockerfile: Frontend.Dockerfile
+      context: .
+      repo: web-starter-frontend
+      tags: latest
+      registry:
+        from_secret: registry_url
+      dry_run: true
+
+  - name: build-backend
+    image: plugins/docker
+    settings:
+      dockerfile: Backend.Dockerfile
+      context: .
+      repo: web-starter-backend
+      tags: latest
+      registry:
+        from_secret: registry_url
+      dry_run: true
+
+  - name: test-containers
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - sleep 5
+      - docker network create test-network
+      - |
+        docker run -d \
+          --name postgres-test \
+          --network test-network \
+          -e POSTGRES_USER=postgres \
+          -e POSTGRES_PASSWORD=postgres \
+          -e POSTGRES_DB=webstarter \
+          postgres:16-alpine
+      - sleep 10
+      - |
+        docker run -d \
+          --name backend-test \
+          --network test-network \
+          -e DATABASE_URL=postgresql://postgres:postgres@postgres-test:5432/webstarter \
+          -e NODE_ENV=production \
+          -p 3000:3000 \
+          web-starter-backend:latest
+      - |
+        docker run -d \
+          --name frontend-test \
+          --network test-network \
+          -p 8080:80 \
+          web-starter-frontend:latest
+      - sleep 15
+      - |
+        # Test backend health
+        apk add --no-cache curl
+        response=$(curl -s http://localhost:3000/api/health)
+        if [[ "$response" != *"status"*":"*"ok"* ]]; then
+          echo "Backend health check failed: $response"
+          exit 1
+        else
+          echo "Backend health check passed: $response"
+        fi
+      - |
+        # Test frontend availability
+        response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+        if [[ "$response" != "200" ]]; then
+          echo "Frontend health check failed with status code: $response"
+          exit 1
+        else
+          echo "Frontend health check passed with status code: $response"
+        fi
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
+
+trigger:
+  branch:
+    - main
+    - master
+    - develop
+  event:
+    - push
+    - pull_request 

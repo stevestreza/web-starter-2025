@@ -4,6 +4,7 @@ import { ApolloServer } from '@apollo/server';
 import { koaMiddleware } from '@as-integrations/koa';
 import helloRoutes from './routes/hello';
 import authRoutes from './routes/auth';
+import healthRoutes from './routes/health';
 import { typeDefs } from './graphql/schema/schema';
 import { resolvers } from './graphql/resolvers/resolvers';
 import { createContext, MyContext } from './graphql/context';
@@ -16,6 +17,7 @@ app.use(bodyParser());
 // Routes
 app.use(helloRoutes.routes()).use(helloRoutes.allowedMethods());
 app.use(authRoutes.routes()).use(authRoutes.allowedMethods());
+app.use(healthRoutes.routes()).use(healthRoutes.allowedMethods());
 
 const PORT = process.env.PORT || 3000;
 

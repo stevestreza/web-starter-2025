@@ -47,6 +47,9 @@ importers:
       argon2:
         specifier: ^0.31.2
         version: 0.31.2
+      dotenv:
+        specifier: ^17.0.1
+        version: 17.0.1
       graphql:
         specifier: ^16.10.0
         version: 16.10.0
@@ -90,6 +93,9 @@ importers:
       '@types/pino':
         specifier: ^7.0.5
         version: 7.0.5
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.17.12)(typescript@5.7.3)
       ts-node-dev:
         specifier: ^2.0.0
         version: 2.0.0(@types/node@20.17.12)(typescript@5.7.3)
@@ -2030,6 +2036,10 @@ packages:
 
   dom-helpers@3.4.0:
     resolution: {integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==}
+
+  dotenv@17.0.1:
+    resolution: {integrity: sha512-GLjkduuAL7IMJg/ZnOPm9AnWKJ82mSE2tzXLaJ/6hD6DhwGfZaXG77oB8qbReyiczNxnbxQKyh0OE5mXq0bAHA==}
+    engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -6022,6 +6032,8 @@ snapshots:
   dom-helpers@3.4.0:
     dependencies:
       '@babel/runtime': 7.26.0
+
+  dotenv@17.0.1: {}
 
   dunder-proto@1.0.1:
     dependencies:

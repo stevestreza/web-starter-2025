@@ -5,12 +5,8 @@
             "name": "Frontend Dev",
             "type": "node",
             "request": "launch",
-            "runtimeExecutable": "nix",
+            "runtimeExecutable": "pnpm",
             "runtimeArgs": [
-                "develop",
-                ".",
-                "--command",
-                "pnpm",
                 "-F",
                 "frontend",
                 "dev"
@@ -22,12 +18,8 @@
             "name": "Backend Dev",
             "type": "node",
             "request": "launch",
-            "runtimeExecutable": "nix",
+            "runtimeExecutable": "pnpm",
             "runtimeArgs": [
-                "develop",
-                ".",
-                "--command",
-                "pnpm",
                 "-F",
                 "backend",
                 "dev"

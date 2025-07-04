@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { ApolloServer } from '@apollo/server';

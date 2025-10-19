@@ -1,11 +1,11 @@
-import { Route, Routes } from 'react-router';
-import { ThemeProvider } from './contexts/ThemeContext';
+import { Route, Routes } from 'react-router'
+import { ThemeProvider } from './contexts/ThemeContext'
 
-import Layout from './components/Layout';
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Layout from './components/Layout'
+import Home from "./pages/Home"
+import About from "./pages/About"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function App() {
 	return (
@@ -19,7 +19,7 @@ function App() {
 				</Route>
 			</Routes>
 		</ThemeProvider>
-	);
+	)
 }
 
-export default App;
+export default App

@@ -2,26 +2,23 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "dist/app.js",
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
-    "lint": "eslint . --ext .ts --fix",
-    "db:migrate": "prisma migrate dev",
-    "db:generate": "prisma generate",
-    "db:seed": "prisma db seed",
-    "db:studio": "prisma studio"
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "db:migrate": "ts-node src/lib/migrate.ts",
+    "db:seed": "ts-node src/lib/seed.ts",
+    "bootstrap": "pnpm install && pnpm db:migrate && pnpm db:seed"
   },
   "dependencies": {
     "@apollo/server": "^4.12.0",
     "@as-integrations/koa": "^1.1.1",
     "@koa/router": "^12.0.2",
-    "@prisma/client": "^5.10.2",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/koa-session": "^6.4.5",
+    "@types/pg": "^8.15.5",
     "argon2": "^0.31.2",
     "dotenv": "^17.0.1",
     "graphql": "^16.10.0",
@@ -30,9 +27,10 @@
     "koa": "^2.15.3",
     "koa-bodyparser": "^4.4.1",
     "koa-session": "^6.4.0",
+    "kysely": "^0.28.8",
+    "pg": "^8.16.3",
     "pino": "^8.19.0",
-    "pino-pretty": "^10.3.1",
-    "prisma": "^5.10.2"
+    "pino-pretty": "^10.3.1"
   },
   "devDependencies": {
     "@types/koa": "^2.15.0",

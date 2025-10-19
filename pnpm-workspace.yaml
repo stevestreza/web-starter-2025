@@ -3,8 +3,5 @@ packages:
   - 'backend'
 onlyBuiltDependencies:
  - '@apollo/protobufjs'
- - '@prisma/client'
- - '@prisma/engines'
  - 'argon2'
  - 'esbuild'
- - 'prisma'

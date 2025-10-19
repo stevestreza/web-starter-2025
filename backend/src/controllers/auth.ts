@@ -1,7 +1,7 @@
 import { Context } from 'koa'
 import * as argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
-import { prisma } from '../lib/prisma'
+import { kysely } from '../lib/database'
 import { authLogger as logger } from '../lib/logger'
 
 const JWT_SECRET = process.env.JWT_SECRET || `your-secret-key`
@@ -23,25 +23,33 @@ export const register = async (ctx: Context) => {
 			parallelism: 4
 		})
 
-		const user = await prisma.user.create({
-			data: {
+		const user = await kysely
+			.insertInto(`users`)
+			.values({
+				id: crypto.randomUUID(),
 				email,
 				username,
-				password: hashedPassword
-			}
-		})
+				password: hashedPassword,
+				createdAt: new Date(),
+				updatedAt: new Date()
+			})
+			.returningAll()
+			.executeTakeFirstOrThrow()
 
 		logger.info({ userId: user.id, email: user.email }, `User registered successfully`)
 
 		const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: `7d` })
 		
-		await prisma.session.create({
-			data: {
+		await kysely
+			.insertInto(`sessions`)
+			.values({
+				id: crypto.randomUUID(),
 				userId: user.id,
 				token,
+				createdAt: new Date(),
 				expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-			}
-		})
+			})
+			.execute()
 
 		logger.debug({ userId: user.id }, `Session created for new user`)
 
@@ -77,7 +85,12 @@ export const login = async (ctx: Context) => {
 	logger.debug({ email }, `Login attempt`)
 
 	try {
-		const user = await prisma.user.findUnique({ where: { email } })
+		const user = await kysely
+			.selectFrom(`users`)
+			.selectAll()
+			.where(`email`, `=`, email)
+			.executeTakeFirst()
+
 		if (!user) {
 			logger.warn({ email }, `Login attempt with non-existent email`)
 			ctx.status = 401
@@ -97,13 +110,16 @@ export const login = async (ctx: Context) => {
 
 		const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: `7d` })
 		
-		await prisma.session.create({
-			data: {
+		await kysely
+			.insertInto(`sessions`)
+			.values({
+				id: crypto.randomUUID(),
 				userId: user.id,
 				token,
+				createdAt: new Date(),
 				expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-			}
-		})
+			})
+			.execute()
 
 		logger.debug({ userId: user.id }, `New session created`)
 
@@ -134,9 +150,10 @@ export const logout = async (ctx: Context) => {
 	
 	if (token) {
 		try {
-			await prisma.session.deleteMany({
-				where: { token }
-			})
+			await kysely
+				.deleteFrom(`sessions`)
+				.where(`token`, `=`, token)
+				.execute()
 			logger.info({ token }, `User session terminated`)
 		} catch (error) {
 			logger.error(
@@ -163,10 +180,12 @@ export const getCurrentUser = async (ctx: Context) => {
 	}
 
 	try {
-		const session = await prisma.session.findUnique({
-			where: { token },
-			include: { user: true }
-		})
+		const session = await kysely
+			.selectFrom(`sessions`)
+			.innerJoin(`users`, `users.id`, `sessions.userId`)
+			.selectAll()
+			.where(`sessions.token`, `=`, token)
+			.executeTakeFirst()
 
 		if (!session || session.expiresAt < new Date()) {
 			logger.warn({ token }, `Attempted to use expired or invalid session`)
@@ -175,13 +194,12 @@ export const getCurrentUser = async (ctx: Context) => {
 			return
 		}
 
-		logger.debug({ userId: session.user.id }, `Current user retrieved successfully`)
+		logger.debug({ userId: session.userId }, `Current user retrieved successfully`)
 
-		const { user } = session
 		ctx.body = {
-			id: user.id,
-			email: user.email,
-			username: user.username
+			id: session.id,
+			email: session.email,
+			username: session.username
 		}
 	} catch (error) {
 		logger.error(
@@ -191,4 +209,4 @@ export const getCurrentUser = async (ctx: Context) => {
 		ctx.status = 500
 		ctx.body = { error: `Server error` }
 	}
-} 
+}

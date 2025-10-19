@@ -3,7 +3,7 @@ import { getHealth } from '../controllers/health'
 import { logRequest } from '../middleware/logger'
 
 const router = new Router({
-  prefix: `/api`
+	prefix: `/api`
 })
 
 router.get(`/health`, logRequest, getHealth)

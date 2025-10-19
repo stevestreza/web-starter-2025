@@ -13,17 +13,17 @@ export const getHello = async (): Promise<Hello> => {
 		}
 
 		// Type check the response
-		if (!data || typeof data !== 'object' || !('id' in data)) {
-			console.error('Invalid data:', data)
-			throw new Error('Invalid data received from API')
+		if (!data || typeof data !== `object` || !(`id` in data)) {
+			console.error(`Invalid data:`, data)
+			throw new Error(`Invalid data received from API`)
 		}
 
 		const hello = data as Hello
-		console.log('Parsed hello data:', hello)
+		console.log(`Parsed hello data:`, hello)
 		return hello
 
 	} catch (error) {
-		console.error('Error in getHello:', error)
+		console.error(`Error in getHello:`, error)
 		throw error
 	}
 }

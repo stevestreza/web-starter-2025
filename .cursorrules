@@ -40,3 +40,4 @@ Follow these rules when you write code:
 Game design notes are stored in the notes folder. Read these files as needed to understand the game design:
 
 - Read `notes/design.md` for notes on how to design and style the application.
+- If commands fail in development, the developer may be running on NixOS. This project has a Nix flake with a dev shell. So if commands fail to run, try rerunning them with `nix develop --command ...`

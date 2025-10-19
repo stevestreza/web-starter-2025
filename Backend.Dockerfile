@@ -10,7 +10,7 @@ COPY . .
 # Install dependencies
 RUN apk add openssl curl && npm install -g pnpm && pnpm install --frozen-lockfile && pnpm -F backend db:generate && pnpm -F backend build
 
-# Generate Prisma client
+# Create backend directory
 WORKDIR /app/backend
 
 # Set environment variables

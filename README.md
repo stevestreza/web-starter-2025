@@ -6,7 +6,8 @@ A modern, full-stack project template for building web applications with a clean
 
 #### Backend
 - **Koa.js** - Web server framework
-- **Prisma** - ORM for database access
+- **Kysely** - Type-safe SQL query builder
+- **PostgreSQL** - Database
 - **Pino** - Logging framework
 - **Apollo** - GraphQL framework
 
@@ -42,7 +43,6 @@ Most of this starter kit was assembled with the help of LLM coding tools. While 
 5. Run `pnpm install` in the root to setup dependencies.
 6. Run `docker compose up -d` to start a development server.
 7. Run `pnpm -F backend db:migrate` to set up the database.
-8. Run `pnpm -F backend db:seed` to seed the database with a test user. (See `backend/prisma/seed.ts`)
-9. Run `pnpm -F backend db:generate` to create the Prisma schema files, if they don't exist.
-10. Run `pnpm dev` to start both the backend server and frontend build pipeline.
+8. Run `pnpm -F backend db:seed` to seed the database with a test user. (See `backend/src/lib/seed.ts`)
+9. Run `pnpm dev` to start both the backend server and frontend build pipeline.
 11. Open `http://localhost:5173/` in your browser to see the app in action!

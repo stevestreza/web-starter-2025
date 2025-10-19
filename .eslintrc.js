@@ -20,13 +20,23 @@ module.exports = {
 				browser: true
 			},
 			extends: [
-				'plugin:react/typescript'
+				'plugin:react/recommended',
+				'plugin:react-hooks/recommended'
 			],
-			plugins: ['react'],
+			plugins: ['react', 'react-hooks'],
 			parserOptions: {
 				ecmaFeatures: {
 					jsx: true
 				}
+			},
+			settings: {
+				react: {
+					version: 'detect'
+				}
+			},
+			rules: {
+				'react/react-in-jsx-scope': 'off',
+				'react/no-unescaped-entities': 'off'
 			}
 		},
 		{

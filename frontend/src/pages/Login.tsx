@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { login } from '../services/auth'
 
 export default function Login() {
-    const navigate = useNavigate()
+	const navigate = useNavigate()
 	const [error, setError] = useState(``)
 	const [loading, setLoading] = useState(false)
 

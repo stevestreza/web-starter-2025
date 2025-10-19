@@ -21,10 +21,6 @@
             nodePackages.ts-node
             pnpm
 
-            # Prisma
-            prisma
-            prisma-engines
-
             # PostgreSQL client
             postgresql
 
@@ -55,9 +51,7 @@
             echo ""
             echo "Database:"
             echo "  pnpm -F backend db:migrate  - Run database migrations"
-            echo "  pnpm -F backend db:generate - Generate Prisma client"
             echo "  pnpm -F backend db:seed     - Seed the database"
-            echo "  pnpm -F backend db:studio   - Open Prisma Studio"
             echo ""
             echo "Build:"
             echo "  pnpm run build       - Build all packages"
@@ -72,11 +66,6 @@
           POSTGRES_PASSWORD = "postgres";
           POSTGRES_DB = "gamedb";
           DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/gamedb";
-          PRISMA_SCHEMA_ENGINE_BINARY = "${pkgs.prisma-engines}/bin/schema-engine";
-          PRISMA_QUERY_ENGINE_BINARY = "${pkgs.prisma-engines}/bin/query-engine";
-          PRISMA_QUERY_ENGINE_LIBRARY = "${pkgs.prisma-engines}/lib/libquery_engine.node";
-          PRISMA_INTROSPECTION_ENGINE_BINARY = "${pkgs.prisma-engines}/bin/introspection-engine";
-          PRISMA_FMT_BINARY = "${pkgs.prisma-engines}/bin/prisma-fmt";
         };
       }
     );

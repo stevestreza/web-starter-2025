@@ -37,7 +37,7 @@
           ];
 
           shellHook = with pkgs; ''
-            echo "🚀 Welcome to the Game Project development environment!"
+            echo "🚀 Welcome to the development environment!"
             echo "Available commands:"
             echo ""
             echo "Setup:"
@@ -64,8 +64,8 @@
           POSTGRES_PORT = "5432";
           POSTGRES_USER = "postgres";
           POSTGRES_PASSWORD = "postgres";
-          POSTGRES_DB = "gamedb";
-          DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/gamedb";
+          POSTGRES_DB = "my-app";
+          DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/my-app";
         };
       }
     );
